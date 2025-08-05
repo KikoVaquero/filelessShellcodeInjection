@@ -4,7 +4,7 @@
 
 A pesar de que en Havoc es posible generar directamente un shellcode del agente, prefiero convertir el payload `.exe` a C y posteriormente a binario, ya que en algunas situaciones me dió problemas el shellcode de Havoc.
 
-![[/capturas/1.png]]
+![](capturas/1.png)
 ## Generación del Shellcode
 
 Para convertir el ejecutable del agente generado por Havoc en un shellcode, utilizamos **donut**, una herramienta especializada en convertir PE/EXE a shellcode compatible para inyecciones en memoria. El comando utilizado fue:
@@ -15,7 +15,7 @@ donut -i payload.exe -a 2 -f 3 -o shellcode.c -e 1 -z 1 -b 1
 
 Donut genera un archivo `shellcode.c` que contiene el shellcode codificado como una cadena de caracteres en formato `\xAA\xBB...`.
 
-![[capturas/2.png]]
+![](capturas/2.png)
 ## Conversión a Binario
 
 Una vez generado el `shellcode.c`, eliminamos la definición de la variable y el punto y coma del final para quedarnos únicamente con la cadena del shellcode. A continuación, se utiliza el siguiente script en Python para convertir esa cadena en un archivo binario:
@@ -34,7 +34,7 @@ with open("shellcode.bin", "wb") as f:
 
 Este proceso produce un archivo binario puro (`shellcode.bin`), listo para ser manipulado o encriptado.
 
-![[capturas/3.png]]
+![](capturas/3.png)
 ## Encriptación con XOR
 
 Con el fin de evadir ciertos motores antivirus que detectan firmas de shellcode comunes, se opta por aplicar una encriptación simple con XOR utilizando una clave de un solo byte. Se utilizó el siguiente código para dicho propósito:
@@ -61,7 +61,7 @@ with open("shellcode_encrypted.bin", "wb") as f:
 
 El resultado es un nuevo archivo llamado `shellcode_encrypted.bin`, el cual contiene el shellcode ofuscado mediante XOR.
 
-![[capturas/4.png]]
+![](capturas/4.png)
 ## Servidor HTTP y Preparación
 
 Para facilitar las pruebas, se utilizó el servidor **Apache2** que viene instalado por defecto en Kali Linux. El archivo `shellcode_encrypted.bin` se movió a la ruta `/var/www/html` para hacerlo accesible a través de una URL dentro de la red local.
@@ -178,8 +178,9 @@ printf("[+] Reanudando el proceso del notepad\n");
 
 Arriba a la izquierda ejecuto el programa, debajo la comprobación de que la seguridad de Windows está activada y a la derecha el C2 más la ejecución remota de comandos.
 
-![[capturas/5.png]]
+![](capturas/5.png)
 
 Este es el output del programa y vemos que no da ningún error.
 
-![[capturas/6.png]]
+![](capturas/6.png)
+
